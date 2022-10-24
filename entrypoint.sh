@@ -91,7 +91,7 @@ commit=$(git rev-parse HEAD)
 
 if [ "$tag_commit" == "$commit" ]; then
     echo "No new commits since previous tag. Skipping..."
-    echo ::set-output name=tag::$tag
+    echo "tag=$tag" >> $GITHUB_OUTPUT
     exit 0
 fi
 
@@ -147,17 +147,17 @@ else
 fi
 
 # set outputs
-echo ::set-output name=new_tag::$new
-echo ::set-output name=part::$part
+echo "new_tag=$new" >> $GITHUB_OUTPUT
+echo "part::$part" >> $GITHUB_OUTPUT
 
 # use dry run to determine the next tag
 if $dryrun
 then
-    echo ::set-output name=tag::$tag
+    echo "tag=$tag" >> $GITHUB_OUTPUT
     exit 0
 fi 
 
-echo ::set-output name=tag::$new
+echo :echo "tag=$new" >> $GITHUB_OUTPUT
 
 # create local git tag
 git tag $new
